@@ -1,0 +1,62 @@
+authenticationResponse: |
+  {
+    "status": 200,
+    "body": {
+      "access_token": "~[access_token]"
+      }
+  }
+
+createServerRequestTemplate: |
+  {
+          "name": #[name],
+          "cores": #[cores],
+          "ram":#[ram],
+          "storage":#[storage]
+  }
+
+createServerResponseTemplate: |
+  {
+    "status": 201,
+    "body": {
+      "userId": "~[userId]",
+      "id": "~[serverId]",
+      "name": #[name],
+      "cores": #[cores],
+      "ram": #[ram],
+      "storage" : #[storage]
+    }
+  }
+
+getServerResponseTemplate: |
+  {
+    "status": 200,
+    "body": {
+      "id": "~[serverId]"
+      }
+  }
+
+putDefaultServerRequestTemplate: |
+  {
+          "name": "ServerDefault",
+          "cores": "2",
+          "ram":"1024",
+          "storage":"8"
+  }
+
+putServerResponseTemplate: |
+  {
+  "status": 200,
+  "body": {
+    "userId": "~[userId]",
+    "id": "~[serverId]",
+    "name": "ServerDefault",
+    "cores": "2",
+    "ram": "1024",
+    "storage" : "8"
+  }
+  }
+
+deleteServerResponse: |
+  {
+    "status": 204
+  }

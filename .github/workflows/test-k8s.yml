@@ -1,0 +1,32 @@
+name: Trigger @k8s Regression Tests
+
+on:
+  schedule:
+    - cron: "* 6 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  trigger-vdc-end2end-tests:
+    name: Triggering regression tests from vdc-bundles with @k8s
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up JQ to dispatch and wait
+        run: |
+          set -xe;
+          export DEBIAN_FRONTEND=noninteractive;
+          sudo -E apt-get update -y;
+          sudo -E apt-get install -y jq;
+          set +xe;
+
+      - name: Run @k8s Tests and Wait for Feedback
+        run: ./dispatch-and-wait.sh
+        env:
+          INPUT_EVENT_TYPE: 'regression-test'
+          INPUT_OWNER: 'ionos-cloud'
+          INPUT_REPO: 'vdc-bundles'
+          INPUT_TOKEN: "${{ secrets.CUCUMBER_REPO_ACCESS_TOKEN }}"
+          INPUT_CLIENT_PAYLOAD: '{"cucumber_tags": "@pawel","environment":"ppbeta","triggered_by": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}","service_name": "cucumber-tests"}'
+          INPUT_MAX_TIME: 15000
+          INPUT_WAIT_TIME: 20

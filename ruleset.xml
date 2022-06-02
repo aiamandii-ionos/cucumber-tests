@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<ruleset name="Custom Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>PMD ruleset for IONOS Microservices</description>
+
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="AbstractClassWithoutAbstractMethod"/><!-- IMO that's OK, also used in PanacheEntityBase, for example. -->
+        <exclude name="GuardLogStatement"/>                 <!-- This rule seems to be from the last century. There are better methods today. -->
+        <exclude name="PositionLiteralsFirstInCaseInsensitiveComparisons"/><!-- IMO, that's OK if you know that the variable is not null. -->
+        <exclude name="PositionLiteralsFirstInComparisons"/><!-- IMO, that's OK if you know that the variable is not null. -->
+        <exclude name="PreserveStackTrace"/>                <!-- If we log the cause, we don't need to include it in the new exception. -->
+    </rule>
+
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="AtLeastOneConstructor"/>             <!-- I don't think we should implement artificial default constructors. -->
+        <exclude name="ClassNamingConventions"/>            <!-- Limits freedom to name classes too strongly, IMO. -->
+        <exclude name="CommentDefaultAccessModifier"/>      <!-- We don't comment why we make fields private, protected or public. So why should we comment on default access? -->
+        <exclude name="ConfusingTernary"/>                  <!-- I don't find these confusing, sometimes they make the code flow easier to follow. -->
+        <exclude name="DefaultPackage"/>                    <!-- Same as CommentDefaultAccessModifier. -->
+        <exclude name="LocalVariableCouldBeFinal"/>         <!-- Open for discussion IMO. -->
+        <exclude name="LongVariable"/>                      <!-- Open for discussion; at least we should increase the default limit of 16 characters, IMO. -->
+        <exclude name="MethodArgumentCouldBeFinal"/>        <!-- Open for discussion IMO. -->
+        <exclude name="OnlyOneReturn"/>                     <!-- That would make methods more complicated than necessary. -->
+        <exclude name="ShortClassName"/>                    <!-- Wouldn't allow class names like "User" -->
+        <exclude name="ShortMethodName"/>                   <!-- Wouldn't allow method names like "of" -->
+        <exclude name="ShortVariable"/>                     <!-- See "LongVariable". -->
+    </rule>
+
+    <rule ref="category/java/design.xml">
+        <exclude name="ExcessiveImports"/>                  <!-- Sometimes we need more imports than allowed by this rule. -->
+        <exclude name="LawOfDemeter"/>                      <!-- Open for discussion IMO. -->
+    </rule>
+
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentRequired"/>                   <!-- Would require comments on all fields. -->
+        <exclude name="CommentSize"/>                       <!-- Don't limit the size of comments. -->
+    </rule>
+
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="AvoidFieldNameMatchingMethodName"/>  <!-- Sometimes makes sense for static factory methods. -->
+        <exclude name="AvoidLiteralsInIfCondition"/>        <!-- Sometimes, literals are OK, like small numbers, like 0, 1, or 2. -->
+        <exclude name="DataflowAnomalyAnalysis"/>           <!-- Unfortunately, this rule is buggy; see https://stackoverflow.com/questions/40104296/found-ur-anomaly-for-variable -->
+        <exclude name="BeanMembersShouldSerialize"/>        <!-- In a Java EE application, basically everything is a bean. We don't want to make all our code serializable. -->
+        <exclude name="LoggerIsNotStaticFinal"/>            <!-- Sometimes I want a logger for getClass(), for example in the base class of a strategy. That wouldn't be possible with a static logger. -->
+        <exclude name="NullAssignment"/>                    <!-- Sometimes OK, IMO. -->
+        <exclude name="MissingSerialVersionUID"/>
+    </rule>
+
+    <rule ref="category/java/multithreading.xml">
+        <exclude name="AvoidUsingVolatile"/>                <!-- This rule makes no sense. Volatile is critical in multithreading situations. -->
+    </rule>
+
+    <rule ref="category/java/performance.xml" />
+    <rule ref="category/java/security.xml" />
+
+</ruleset>

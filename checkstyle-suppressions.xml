@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress files="MavenWrapperDownloader\.java" checks="[a-zA-Z0-9]*"/>
+
+    <!-- google-java-format puts JavaDocs into a single line, which this check complains -->
+    <suppress files=".*" checks="SingleLineJavadocCheck" />
+
+    <!-- indentation is managed by google-java-format -->
+    <suppress files=".*" checks="IndentationCheck" />
+</suppressions>

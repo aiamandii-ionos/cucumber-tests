@@ -1,0 +1,15 @@
+image: maven:3-jdk-11
+
+stages:
+  - run-tests
+
+verify:
+  tags: [ "vdc" ]
+  stage: run-tests
+  script:
+    - mvn clean verify -Denv=kte2 -Dcleanup -Dconcurrent=true -Dcucumber.filter.tags="@stable" -Dhttp.proxyHost=proxy.stg.profitbricks.net -Dhttp.proxyPort=3128 -Dhttps.proxyHost=proxy.stg.profitbricks.net -Dhttps.proxyPort=3128
+  artifacts:
+    expire_in: 2 weeks
+    when: always
+    paths:
+      - "**/target/cucumber-html-reports"
