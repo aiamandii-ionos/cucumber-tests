@@ -19,7 +19,7 @@ public class ScenarioDecorator extends BaseScenario {
   }
 
   @After("not @ignoreAfter")
-  public void deleteDatacenter() {
+  public void deleteServer() {
     System.out.println("::group::Cleanup Tasks after test runs");
     boolean verifyCleanup =
         System.getProperties().get("verifyCleanup") == null
