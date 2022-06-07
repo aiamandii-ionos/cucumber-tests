@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <surefire.version>3.0.0-M6</surefire.version>
+        <surefire.version>3.0.0-M7</surefire.version>
         <testng.config.file>testng.xml</testng.config.file>
         <cucumber.version>7.3.4</cucumber.version>
         <cucumber.jutils.version>8.1</cucumber.jutils.version>
