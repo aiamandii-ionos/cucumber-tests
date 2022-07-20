@@ -7,12 +7,11 @@ import java.util.Map;
 
 public class ServerService extends HTTPAbstract implements IService {
 
-  private static final String SERVERS_PATH = "/servers/create";
-  private static final String GET_ALL_SERVERS_PATH = "/servers";
+  private static final String SERVERS_PATH = "/servers";
   private static final String SERVER_PATH = "/servers/#[serverId]";
 
   public HttpClient.Builder retrieveAllServers(String address, Map<String, String> headers) {
-    return sendGet(address, headers, GET_ALL_SERVERS_PATH);
+    return sendGet(address, headers, SERVERS_PATH);
   }
 
   public HttpClient.Builder prepareCreate(
@@ -21,19 +20,13 @@ public class ServerService extends HTTPAbstract implements IService {
   }
 
   public HttpClient.Builder prepareGet(String address, Map<String, String> headers) {
-    return sendGet(address, headers, GET_ALL_SERVERS_PATH);
+    return sendGet(address, headers, SERVERS_PATH);
   }
 
   public HttpClient.Builder prepareDeleteById(
       String address, Map<String, String> headers, String serverId) {
     String endpoint = getEndpoint(SERVER_PATH, serverId);
     return sendDelete(address, headers, endpoint);
-  }
-
-  public HttpClient.Builder updateProperyServerById(
-      String address, Map<String, String> headers, String requestBody, String serverId) {
-    String endpoint = getEndpoint(SERVER_PATH, serverId);
-    return sendPatch(address, headers, requestBody, endpoint);
   }
 
   public HttpClient.Builder prepareGetById(

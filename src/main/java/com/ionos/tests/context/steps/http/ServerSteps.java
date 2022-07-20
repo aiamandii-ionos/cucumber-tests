@@ -5,7 +5,7 @@ import com.cucumber.utils.context.vars.ScenarioVars;
 import com.google.inject.Inject;
 import com.ionos.tests.config.PropertiesConfig;
 import com.ionos.tests.context.steps.RestScenario;
-import com.ionos.tests.service.http.ServerService;
+import com.ionos.tests.service.http.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,6 +17,8 @@ public class ServerSteps extends RestScenario {
   @Inject private ServerService serverService;
 
   private static String URL = PropertiesConfig.API_URL;
+
+  @Inject private RequestService requestService;
 
   @Inject
   public ServerSteps(ScenarioVars scenarioVars) {
@@ -73,19 +75,12 @@ public class ServerSteps extends RestScenario {
         scenarioVars.getAsString("getServerResponseTemplate"));
   }
 
-  @And("Get the server with id={} and check {}")
-  public void getTheServerWithIdServerIdAndCheckResponseBody(String serverId, String responseBody) {
-    executeAndCompare(
-        serverService.prepareGetById(URL, authorizationHeader(), serverId),
-        String.format("{\"status\":200, \"body\": \".*%s.*\"}", responseBody));
-  }
-
-  @Given("Delete the server with the id={}")
-  public void deleteTheServerWithTheId(String serverID) {
-    executeAndCompare(
-        serverService.prepareDeleteById(URL, authorizationHeader(), serverID),
-        scenarioVars.getAsString("deleteServerResponse"));
-  }
+    @Given("Delete the server with the id={}")
+    public void deleteTheServerWithTheId(String serverID) {
+      executeAndCompare(
+          serverService.prepareDeleteById(URL, authorizationHeader(), serverID),
+          scenarioVars.getAsString("deleteServerResponse"));
+    }
 
   @Given("Find the server with id={} and check the server is no longer available")
   public void retrieveTheServerWithIdAndCheckTheResponse(String serverId) {
@@ -147,6 +142,33 @@ public class ServerSteps extends RestScenario {
         serverService.prepareGetById(URL, authorizationHeader(), serverId), "{\"status\":404}");
   }
 
+  @When("Check if create request has successfully completed")
+  public void checkCreateRequestIsCompletedSuccessfully() {
+    executeAndCompare(
+        requestService.prepareGetById(
+            URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
+        scenarioVars.getAsString("getCreateRequestResponseTemplate"),
+        300);
+  }
+
+  @When("Check if update request has successfully completed")
+  public void checkUpdateRequestIsCompletedSuccessfully() {
+    executeAndCompare(
+            requestService.prepareGetById(
+                    URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
+            scenarioVars.getAsString("getUpdateRequestResponseTemplate"),
+            300);
+  }
+
+  @When("Check if delete request has successfully completed")
+  public void checkDeleteRequestIsCompletedSuccessfully() {
+    executeAndCompare(
+        requestService.prepareGetById(
+            URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
+        scenarioVars.getAsString("getDeleteRequestResponseTemplate"),
+        300);
+  }
+
   @Then("Updates the server with id={} with another server and check access is forbidden")
   public void updateServerWithIdAndCheckResponseIs(String serverId) {
     String requestBody = scenarioVars.getAsString("putDefaultServerRequestTemplate");
@@ -155,7 +177,7 @@ public class ServerSteps extends RestScenario {
         "{\"status\":404}");
   }
 
-  @Then("Delete server with the id={} and check access is forbidden")
+  @And("Delete  server with the id={} and check access is forbidden")
   public void deleteTheServerWithTheIdAndCheckAccessIsForbidden(String serverID) {
     executeAndCompare(
         serverService.prepareDeleteById(URL, authorizationHeader(), serverID), "{\"status\":404}");
@@ -186,24 +208,7 @@ public class ServerSteps extends RestScenario {
   }
 
   public void deleteServerAuthenticatedAsAdmin(String serverId) {
-    authenticationIsSuccessfulWithAValidUsernameAndValidPassword("admin", "pass");
+    authenticationIsSuccessfulWithAValidUsernameAndValidPassword("admin", "admin");
     deleteTheServerWithTheId(serverId);
-  }
-
-  @Then("Create server for delete with name={}, cores={} ,ram={}, storage={} and check response")
-  public void createServerForDelete(String name, String cores, String ram, String storage) {
-    String requestBodyPost =
-        StringFormat.replaceProps(
-            scenarioVars.getAsString("createServerRequestTemplate"),
-            Map.of("name", name, "cores", cores, "ram", ram, "storage", storage));
-
-    String expectedResponse =
-        StringFormat.replaceProps(
-            scenarioVars.getAsString("createServerResponseTemplate"),
-            Map.of("name", name, "cores", cores, "ram", ram, "storage", storage));
-
-    executeAndCompare(
-        serverService.prepareCreate(URL, authorizationHeader(), requestBodyPost), expectedResponse);
-    scenarioVars.put("delete", true);
   }
 }

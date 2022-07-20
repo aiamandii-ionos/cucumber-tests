@@ -14,16 +14,74 @@ createServerRequestTemplate: |
           "storage":#[storage]
   }
 
+getCreateRequestResponseTemplate: |
+  {
+    "status": 200,
+    "body": {
+      "requestId": "~[requestId]",
+      "server": "~[serverId]",
+      "userId": "~[userId]",
+      "type": "CREATE_SERVER",
+      "status": "DONE",
+      "properties": {
+        "name": "~[name]",
+        "cores": "~[cores]",
+        "ram": "~[ram]",
+        "storage" : "~[storage]"
+      },
+      "message": "Your request has been processed. The server has been successfully created!",
+      "createdAt": "~[createdAt]"
+    }
+  }
+
+getUpdateRequestResponseTemplate: |
+  {
+    "status": 200,
+    "body": {
+      "requestId": "~[requestId]",
+      "server": "~[serverId]",
+      "userId": "~[userId]",
+      "type": "UPDATE_SERVER",
+      "status": "DONE",
+      "properties": {
+        "name": "~[name]",
+        "cores": "~[cores]",
+        "ram": "~[ram]",
+        "storage" : "~[storage]"
+      },
+      "message": "Your request has been processed. The server has been successfully updated!",
+      "createdAt": "~[createdAt]"
+    }
+  }
+
+getDeleteRequestResponseTemplate: |
+  {
+    "status": 200,
+    "body": {
+      "requestId": "~[requestId]",
+      "server": "~[serverId]",
+      "userId": "~[userId]",
+      "type": "DELETE_SERVER",
+      "status": "DONE",
+      "properties": {},
+      "message": "Your request has been processed. The server has been successfully deleted!",
+      "createdAt": "~[createdAt]"
+    }
+  }
+  
+
 createServerResponseTemplate: |
   {
-    "status": 201,
+    "status": 202,
     "body": {
-      "userId": "~[userId]",
-      "id": "~[serverId]",
-      "name": #[name],
-      "cores": #[cores],
-      "ram": #[ram],
-      "storage" : #[storage]
+      "requestId": "~[requestId]",
+      "server": null,
+      "properties": {
+        "name": #[name],
+        "cores": #[cores],
+        "ram": #[ram],
+        "storage" : #[storage]
+      }
     }
   }
 
@@ -31,7 +89,14 @@ getServerResponseTemplate: |
   {
     "status": 200,
     "body": {
-      "id": "~[serverId]"
+      "id": "~[serverId]",
+      "userId": "~[userId]",
+      "ip": "~[ip]",
+      "privateKey": "~[privateKey]",
+      "name": "#[name]",
+      "cores": #[cores],
+      "ram": #[ram],
+      "storage" : #[storage]
       }
   }
 
@@ -45,18 +110,23 @@ putDefaultServerRequestTemplate: |
 
 putServerResponseTemplate: |
   {
-  "status": 200,
-  "body": {
-    "userId": "~[userId]",
-    "id": "~[serverId]",
-    "name": "ServerDefault",
-    "cores": "2",
-    "ram": "1024",
-    "storage" : "8"
-  }
+    "status": 202,
+    "body": {
+      "requestId": "~[requestId]",
+      "server": "~[serverId]",
+      "properties": {
+        "name": "ServerDefault",
+        "cores": "2",
+        "ram": "1024",
+        "storage" : "8"
+      }
+    }
   }
 
 deleteServerResponse: |
   {
-    "status": 204
+    "status": 202,
+    "body": {
+      "requestId": "~[requestId]"
+    }
   }

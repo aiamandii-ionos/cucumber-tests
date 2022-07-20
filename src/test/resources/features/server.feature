@@ -4,10 +4,13 @@ Feature: Server API
   Scenario Outline: Create, get by id, update and delete server as an authenticated user
     Given  User is authenticated successfully with username = <username> and password = <password>
     When Create server with name="<name>", cores=<cores> ,ram=<ram>, storage=<storage> and check response
-    Then Retrieve the server with id=#[serverId]
+    Then Check if create request has successfully completed
+    And Retrieve the server with id=#[serverId]
     And Updates the server with id=#[serverId] with another server and check response body
+    Then Check if update request has successfully completed
     When Delete the server with the id=#[serverId]
-    Then Find the server with id=#[serverId] and check the server is no longer available
+    Then Check if delete request has successfully completed
+    And Find the server with id=#[serverId] and check the server is no longer available
 
     Examples:
       | name        | cores | ram  | storage | username | password |
@@ -17,11 +20,14 @@ Feature: Server API
   Scenario Outline: Create, get by id, update and delete server as an authenticated admin
     Given  User is authenticated successfully with username = <username> and password = <password>
     And Create server with name="<name>", cores=<cores> ,ram=<ram>, storage=<storage> and check response
-    When User is authenticated successfully with username = admin and password = pass
+    Then Check if create request has successfully completed
+    When User is authenticated successfully with username = admin and password = admin
     Then Updates the server with id=#[serverId] with another server and check response body
-    And  Retrieve the server with id=#[serverId]
+    And Check if update request has successfully completed
+    Then  Retrieve the server with id=#[serverId]
     When Delete the server with the id=#[serverId]
-    Then Find the server with id=#[serverId] and check the server is no longer available
+    Then Check if delete request has successfully completed
+    And Find the server with id=#[serverId] and check the server is no longer available
     When Create server with name="<name>", cores=<cores> ,ram=<ram>, storage=<storage> and check access is forbidden
 
     Examples:
@@ -32,10 +38,11 @@ Feature: Server API
   Scenario Outline: Access a server of another user
     Given  User is authenticated successfully with username = <username> and password = <password>
     And Create server with name="<name>", cores=<cores> ,ram=<ram>, storage=<storage> and check response
+    Then Check if create request has successfully completed
     Then User is authenticated successfully with username = ana and password = ana
     And Find server with id=#[serverId] and check access is forbidden
     And Updates the server with id=#[serverId] with another server and check access is forbidden
-    And Delete server with the id=#[serverId] and check access is forbidden
+    And Delete  server with the id=#[serverId] and check access is forbidden
 
     Examples:
       | name        | cores | ram  | storage | username | password |
