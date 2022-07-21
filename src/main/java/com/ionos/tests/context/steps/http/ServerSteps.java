@@ -75,12 +75,12 @@ public class ServerSteps extends RestScenario {
         scenarioVars.getAsString("getServerResponseTemplate"));
   }
 
-    @Given("Delete the server with the id={}")
-    public void deleteTheServerWithTheId(String serverID) {
-      executeAndCompare(
-          serverService.prepareDeleteById(URL, authorizationHeader(), serverID),
-          scenarioVars.getAsString("deleteServerResponse"));
-    }
+  @Given("Delete the server with the id={}")
+  public void deleteTheServerWithTheId(String serverID) {
+    executeAndCompare(
+        serverService.prepareDeleteById(URL, authorizationHeader(), serverID),
+        scenarioVars.getAsString("deleteServerResponse"));
+  }
 
   @Given("Find the server with id={} and check the server is no longer available")
   public void retrieveTheServerWithIdAndCheckTheResponse(String serverId) {
@@ -154,10 +154,10 @@ public class ServerSteps extends RestScenario {
   @When("Check if update request has successfully completed")
   public void checkUpdateRequestIsCompletedSuccessfully() {
     executeAndCompare(
-            requestService.prepareGetById(
-                    URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
-            scenarioVars.getAsString("getUpdateRequestResponseTemplate"),
-            300);
+        requestService.prepareGetById(
+            URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
+        scenarioVars.getAsString("getUpdateRequestResponseTemplate"),
+        300);
   }
 
   @When("Check if delete request has successfully completed")
