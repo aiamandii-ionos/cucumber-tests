@@ -28,7 +28,7 @@ public class ScenarioDecorator extends BaseScenario {
     if (System.getProperties().get("cleanup") == null
         || System.getProperties().get("cleanup").toString().equals("true")) {
 
-      if (scenarioVars.getAsString("serverId")!=null) {
+      if (scenarioVars.getAsString("serverId") != null) {
         if (!scenarioVars.getAsString("serverId").equals("null")) {
           serverSteps.deleteServerAuthenticatedAsAdmin(scenarioVars.getAsString("serverId"));
           serverSteps.checkDeleteRequestIsCompletedSuccessfully();
