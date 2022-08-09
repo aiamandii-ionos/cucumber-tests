@@ -86,6 +86,7 @@ public class ServerSteps extends RestScenario {
   public void retrieveTheServerWithIdAndCheckTheResponse(String serverId) {
     executeAndCompare(
         serverService.prepareGetById(URL, authorizationHeader(), serverId), "{\"status\":404}");
+    scenarioVars.put("serverId", null);
   }
 
   @Then(
@@ -123,6 +124,30 @@ public class ServerSteps extends RestScenario {
         scenarioVars.getAsString("putServerResponseTemplate"));
   }
 
+  @When("Update the server with id={} with another server and check request can't be created")
+  public void updateServerWithAnotherServer(String serverId) {
+    String requestBody = scenarioVars.getAsString("putDefaultServerRequestTemplate");
+    executeAndCompare(
+        serverService.updateServerById(URL, authorizationHeader(), requestBody, serverId),
+        "{\"status\":409}");
+    scenarioVars.put("serverId", null);
+  }
+
+  @When("Delete the server with id={} and check request can't be created")
+  public void deleteServer(String serverId) {
+    executeAndCompare(
+            serverService.prepareDeleteById(URL, authorizationHeader(), serverId),
+            "{\"status\":409}");
+    scenarioVars.put("serverId", null);
+  }
+
+  @When("Delete  the server with id={} and check request can't be created")
+  public void deleteServerAfterUpdate(String serverId) {
+    executeAndCompare(
+            serverService.prepareDeleteById(URL, authorizationHeader(), serverId),
+            "{\"status\":409}");
+  }
+
   @When("Create server with name={}, cores={} ,ram={}, storage={} and check access is forbidden")
   public void createServerAndCheckPermissionIsForbidden(
       String name, String cores, String ram, String storage) {
@@ -144,6 +169,8 @@ public class ServerSteps extends RestScenario {
 
   @When("Check if create request has successfully completed")
   public void checkCreateRequestIsCompletedSuccessfully() {
+    System.out.println("INTRA");
+    System.out.println(scenarioVars.getAsString("getCreateRequestResponseTemplate"));
     executeAndCompare(
         requestService.prepareGetById(
             URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
@@ -151,7 +178,7 @@ public class ServerSteps extends RestScenario {
         300);
   }
 
-  @When("Check if update request has successfully completed")
+  @Then("Check if update request has successfully completed")
   public void checkUpdateRequestIsCompletedSuccessfully() {
     executeAndCompare(
         requestService.prepareGetById(
