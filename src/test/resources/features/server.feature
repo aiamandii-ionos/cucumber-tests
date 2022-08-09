@@ -90,3 +90,13 @@ Feature: Server API
     Then Update server with id=1 and check response is {"status": 401}
     Then Delete server with id=1 and check response is {"status": 401}
 
+  Scenario Outline: Create a server and check validation for server fields
+    Given  User is authenticated successfully with username = <username> and password = <password>
+    Then Create server with name="<name>", cores=<cores>, ram=<ram>, storage=<storage> and check response is {"status": 422}
+
+    Examples:
+      | name        | cores | ram  | storage | username | password |
+      |             | 2     | 1024 | 8       | alice    | pass     |
+      | Server test | 0     | 1024 | 8       | alice    | pass     |
+      | Server test | 2     | 1    | 8       | alice    | pass     |
+      | Server test | 2     | 1    | 0       | alice    | pass     |

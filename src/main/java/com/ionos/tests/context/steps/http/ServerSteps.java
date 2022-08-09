@@ -111,6 +111,24 @@ public class ServerSteps extends RestScenario {
         serverService.prepareCreate(URL, authorizationHeader(), requestBodyPost), errorMesage);
   }
 
+  @Then("Create server with name={}, cores={}, ram={}, storage={} and check response is {}")
+  public void createServerCheckValidation(String name, String cores, String ram, String storage, String errorMesage) {
+    String requestBodyPost =
+            StringFormat.replaceProps(
+                    scenarioVars.getAsString("createServerRequestTemplate"),
+                    Map.of(
+                            "name",
+                            name,
+                            "cores",
+                            cores,
+                            "ram",
+                            ram,
+                            "storage",
+                            storage));
+    executeAndCompare(
+            serverService.prepareCreate(URL, authorizationHeader(), requestBodyPost), errorMesage);
+  }
+
   @And("Retrieve  server with id={} and  check response is {}")
   public void retrieveServerWithIdAndCheckResponseIs(String serverId, String response) {
     executeAndCompare(serverService.prepareGetById(URL, authorizationHeader(), serverId), response);
