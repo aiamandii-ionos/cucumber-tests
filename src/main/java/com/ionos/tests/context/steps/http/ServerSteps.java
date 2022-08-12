@@ -187,8 +187,6 @@ public class ServerSteps extends RestScenario {
 
   @When("Check if create request has successfully completed")
   public void checkCreateRequestIsCompletedSuccessfully() {
-    System.out.println("INTRA");
-    System.out.println(scenarioVars.getAsString("getCreateRequestResponseTemplate"));
     executeAndCompare(
         requestService.prepareGetById(
             URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
@@ -203,6 +201,30 @@ public class ServerSteps extends RestScenario {
             URL, authorizationHeader(), scenarioVars.getAsString("requestId")),
         scenarioVars.getAsString("getUpdateRequestResponseTemplate"),
         300);
+  }
+
+  @Then("Get  all requests with page={}, size={}, type={}, status={}, start={}, end={}")
+  public void getAllRequests(Integer page, Integer size, String type, String status, String start, String end) {
+    executeAndCompare(
+            requestService.prepareGet(URL, authorizationHeader(), page, size, type, status, start, end),
+            scenarioVars.getAsString("getRequestResponseTemplate")
+    );
+  }
+
+  @Then("Get   all requests with type={}, status={}, start={}, end={}")
+  public void getAllRequestsWithoutPageSize(String type, String status, String start, String end) {
+    executeAndCompare(
+            requestService.prepareGetWithoutPageSize(URL, authorizationHeader(), type, status, start, end),
+            scenarioVars.getAsString("getRequestResponseTemplate")
+    );
+  }
+
+  @Then("Get all requests with page={}, size={}, type={}, status={}")
+  public void getAllRequestsWithoutDate(Integer page, Integer size, String type, String status) {
+    executeAndCompare(
+            requestService.prepareGetWithoutDate(URL, authorizationHeader(), page, size, type, status),
+            scenarioVars.getAsString("getRequestResponseTemplate")
+    );
   }
 
   @When("Check if delete request has successfully completed")

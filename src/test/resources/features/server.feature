@@ -11,10 +11,11 @@ Feature: Server API
     When Delete the server with the id=#[serverId]
     Then Check if delete request has successfully completed
     And Find the server with id=#[serverId] and check the server is no longer available
+    Then Get  all requests with page=<page>, size=<size>, type=<type>, status=<status>, start=<start>, end=<end>
 
     Examples:
-      | name        | cores | ram  | storage | username | password |
-      | Server test | 2     | 1024 | 8       | alice    | pass     |
+      | name        | cores | ram  | storage | username | password | page | size | type          | status | start            | end              |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | CREATE_SERVER | DONE   | 2022-08-11T15:49 | 2022-08-11T15:51 |
 
   Scenario Outline: Create, update server when there is another delete request for the same server
     Given  User is authenticated successfully with username = <username> and password = <password>
@@ -22,10 +23,11 @@ Feature: Server API
     Then Check if create request has successfully completed
     And Delete the server with the id=#[serverId]
     Then Update the server with id=#[serverId] with another server and check request can't be created
+    Then Get all requests with page=<page>, size=<size>, type=<type>, status=<status>, start=<start>, end=<end>
 
     Examples:
-      | name        | cores | ram  | storage | username | password |
-      | Server test | 2     | 1024 | 8       | alice    | pass     |
+      | name        | cores | ram  | storage | username | password | page | size | type          | status | start            | end              |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | DELETE_SERVER | DONE   | 2022-08-11T15:49 | 2022-08-11T15:51 |
 
   Scenario Outline: Create, delete server when there is another delete request for the same server
     Given  User is authenticated successfully with username = <username> and password = <password>
@@ -45,10 +47,11 @@ Feature: Server API
     And Updates the server with id=#[serverId] with another server and check response body
     Then Delete  the server with id=#[serverId] and check request can't be created
     And Check if update request has successfully completed
+    Then Get   all requests with type=<type>, status=<status>, start=<start>, end=<end>
 
     Examples:
-      | name        | cores | ram  | storage | username | password |
-      | Server test | 2     | 1024 | 8       | alice    | pass     |
+      | name        | cores | ram  | storage | username | password | type          | status | start            | end              |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | UPDATE_SERVER | DONE   | 2022-08-11T15:49 | 2022-08-11T17:08 |
 
 
   Scenario Outline: Create, get by id, update and delete server as an authenticated admin
@@ -62,11 +65,12 @@ Feature: Server API
     When Delete the server with the id=#[serverId]
     Then Check if delete request has successfully completed
     And Find the server with id=#[serverId] and check the server is no longer available
-    When Create server with name="<name>", cores=<cores> ,ram=<ram>, storage=<storage> and check access is forbidden
+    Then Get all requests with page=<page>, size=<size>, type=<type>, status=<status>
+    And Create server with name="<name>", cores=<cores> ,ram=<ram>, storage=<storage> and check access is forbidden
 
     Examples:
-      | name        | cores | ram  | storage | username | password |
-      | Server test | 2     | 1024 | 8       | alice    | pass     |
+      | name        | cores | ram  | storage | username | password | page | size | type          | status |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | DELETE_SERVER | DONE   |
 
 
   Scenario Outline: Access a server of another user

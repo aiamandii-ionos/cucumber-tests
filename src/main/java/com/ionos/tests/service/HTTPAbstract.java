@@ -52,6 +52,36 @@ public abstract class HTTPAbstract extends RestService {
         .method(Method.GET);
   }
 
+  protected HttpClient.Builder sendGetWithMultipleQueryParams(
+          String address,
+          Map<String, String> headers,
+          String path,
+          String firstQueryParam,
+          String firstValue,
+          String secondQueryParam,
+          String secondValue,
+          String thirdQueryParam,
+          String thirdValue,
+          String fourthQueryParam,
+          String fourthValue,
+          String fifthQueryParam,
+          String fifthValue,
+          String sixthQueryParam,
+          String sixthValue) {
+
+    return defaultClientBuilder()
+            .address(address)
+            .path(path)
+            .queryParam(firstQueryParam, firstValue)
+            .queryParam(secondQueryParam, secondValue)
+            .queryParam(thirdQueryParam, thirdValue)
+            .queryParam(fourthQueryParam, fourthValue)
+            .queryParam(fifthQueryParam, fifthValue)
+            .queryParam(sixthQueryParam, sixthValue)
+            .headers(headers)
+            .method(Method.GET);
+  }
+
   protected HttpClient.Builder sendGetWithTwoQueryParams(
       String address,
       Map<String, String> headers,

@@ -54,6 +54,17 @@ getUpdateRequestResponseTemplate: |
     }
   }
 
+getRequestResponseTemplate: |
+  {
+    "status": 200,
+    "body": [ {
+      "requestId": "~[requestId]",
+      "type": "~[type]",
+      "status": "DONE",
+      "createdAt": "~[createdAt]"
+    } ]
+  }
+
 getDeleteRequestResponseTemplate: |
   {
     "status": 200,
