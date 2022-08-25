@@ -112,21 +112,14 @@ public class ServerSteps extends RestScenario {
   }
 
   @Then("Create server with name={}, cores={}, ram={}, storage={} and check response is {}")
-  public void createServerCheckValidation(String name, String cores, String ram, String storage, String errorMesage) {
+  public void createServerCheckValidation(
+      String name, String cores, String ram, String storage, String errorMesage) {
     String requestBodyPost =
-            StringFormat.replaceProps(
-                    scenarioVars.getAsString("createServerRequestTemplate"),
-                    Map.of(
-                            "name",
-                            name,
-                            "cores",
-                            cores,
-                            "ram",
-                            ram,
-                            "storage",
-                            storage));
+        StringFormat.replaceProps(
+            scenarioVars.getAsString("createServerRequestTemplate"),
+            Map.of("name", name, "cores", cores, "ram", ram, "storage", storage));
     executeAndCompare(
-            serverService.prepareCreate(URL, authorizationHeader(), requestBodyPost), errorMesage);
+        serverService.prepareCreate(URL, authorizationHeader(), requestBodyPost), errorMesage);
   }
 
   @And("Retrieve  server with id={} and  check response is {}")
@@ -154,16 +147,14 @@ public class ServerSteps extends RestScenario {
   @When("Delete the server with id={} and check request can't be created")
   public void deleteServer(String serverId) {
     executeAndCompare(
-            serverService.prepareDeleteById(URL, authorizationHeader(), serverId),
-            "{\"status\":409}");
+        serverService.prepareDeleteById(URL, authorizationHeader(), serverId), "{\"status\":409}");
     scenarioVars.put("serverId", null);
   }
 
   @When("Delete  the server with id={} and check request can't be created")
   public void deleteServerAfterUpdate(String serverId) {
     executeAndCompare(
-            serverService.prepareDeleteById(URL, authorizationHeader(), serverId),
-            "{\"status\":409}");
+        serverService.prepareDeleteById(URL, authorizationHeader(), serverId), "{\"status\":409}");
   }
 
   @When("Create server with name={}, cores={} ,ram={}, storage={} and check access is forbidden")
@@ -204,27 +195,26 @@ public class ServerSteps extends RestScenario {
   }
 
   @Then("Get  all requests with page={}, size={}, type={}, status={}, start={}, end={}")
-  public void getAllRequests(Integer page, Integer size, String type, String status, String start, String end) {
+  public void getAllRequests(
+      Integer page, Integer size, String type, String status, String start, String end) {
     executeAndCompare(
-            requestService.prepareGet(URL, authorizationHeader(), page, size, type, status, start, end),
-            scenarioVars.getAsString("getRequestResponseTemplate")
-    );
+        requestService.prepareGet(URL, authorizationHeader(), page, size, type, status, start, end),
+        scenarioVars.getAsString("getRequestResponseTemplate"));
   }
 
   @Then("Get   all requests with type={}, status={}, start={}, end={}")
   public void getAllRequestsWithoutPageSize(String type, String status, String start, String end) {
     executeAndCompare(
-            requestService.prepareGetWithoutPageSize(URL, authorizationHeader(), type, status, start, end),
-            scenarioVars.getAsString("getRequestResponseTemplate")
-    );
+        requestService.prepareGetWithoutPageSize(
+            URL, authorizationHeader(), type, status, start, end),
+        scenarioVars.getAsString("getRequestResponseTemplate"));
   }
 
   @Then("Get all requests with page={}, size={}, type={}, status={}")
   public void getAllRequestsWithoutDate(Integer page, Integer size, String type, String status) {
     executeAndCompare(
-            requestService.prepareGetWithoutDate(URL, authorizationHeader(), page, size, type, status),
-            scenarioVars.getAsString("getRequestResponseTemplate")
-    );
+        requestService.prepareGetWithoutDate(URL, authorizationHeader(), page, size, type, status),
+        scenarioVars.getAsString("getRequestResponseTemplate"));
   }
 
   @When("Check if delete request has successfully completed")

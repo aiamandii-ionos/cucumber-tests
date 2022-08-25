@@ -16,44 +16,61 @@ public class RequestService extends HTTPAbstract {
   }
 
   public HttpClient.Builder prepareGet(
-          String address, Map<String, String> headers, Integer page, Integer size, String type, String status, String start, String end) {
+      String address,
+      Map<String, String> headers,
+      Integer page,
+      Integer size,
+      String type,
+      String status,
+      String start,
+      String end) {
     return defaultClientBuilder()
-            .address(address)
-            .path(REQUESTS_PATH)
-            .queryParam("page", String.valueOf(page))
-            .queryParam("size", String.valueOf(size))
-            .queryParam("type", type)
-            .queryParam("status", status)
-            .queryParam("start", start)
-            .queryParam("end", end)
-            .headers(headers)
-            .method(Method.GET);
+        .address(address)
+        .path(REQUESTS_PATH)
+        .queryParam("page", String.valueOf(page))
+        .queryParam("size", String.valueOf(size))
+        .queryParam("type", type)
+        .queryParam("status", status)
+        .queryParam("start", start)
+        .queryParam("end", end)
+        .headers(headers)
+        .method(Method.GET);
   }
 
   public HttpClient.Builder prepareGetWithoutDate(
-          String address, Map<String, String> headers, Integer page, Integer size, String type, String status) {
+      String address,
+      Map<String, String> headers,
+      Integer page,
+      Integer size,
+      String type,
+      String status) {
     return defaultClientBuilder()
-            .address(address)
-            .path(REQUESTS_PATH)
-            .queryParam("page", String.valueOf(page))
-            .queryParam("size", String.valueOf(size))
-            .queryParam("type", type)
-            .queryParam("status", status)
-            .headers(headers)
-            .method(Method.GET);
+        .address(address)
+        .path(REQUESTS_PATH)
+        .queryParam("page", String.valueOf(page))
+        .queryParam("size", String.valueOf(size))
+        .queryParam("type", type)
+        .queryParam("status", status)
+        .headers(headers)
+        .method(Method.GET);
   }
 
   public HttpClient.Builder prepareGetWithoutPageSize(
-          String address, Map<String, String> headers, String type, String status, String start, String end) {
+      String address,
+      Map<String, String> headers,
+      String type,
+      String status,
+      String start,
+      String end) {
     return defaultClientBuilder()
-            .address(address)
-            .path(REQUESTS_PATH)
-            .queryParam("type", type)
-            .queryParam("status", status)
-            .queryParam("start", start)
-            .queryParam("end", end)
-            .headers(headers)
-            .method(Method.GET);
+        .address(address)
+        .path(REQUESTS_PATH)
+        .queryParam("type", type)
+        .queryParam("status", status)
+        .queryParam("start", start)
+        .queryParam("end", end)
+        .headers(headers)
+        .method(Method.GET);
   }
 
   private String getEndpoint(String template, String requestId) {
