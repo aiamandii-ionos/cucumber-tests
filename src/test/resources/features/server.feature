@@ -15,7 +15,7 @@ Feature: Server API
 
     Examples:
       | name        | cores | ram  | storage | username | password | page | size | type          | status | start            | end              |
-      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | CREATE_SERVER | DONE   | 2022-08-11T15:49 | 2022-08-11T15:51 |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | CREATE_SERVER | DONE   | 2022-08-31T13:20 | 2022-08-31T15:51 |
 
   Scenario Outline: Create, update server when there is another delete request for the same server
     Given  User is authenticated successfully with username = <username> and password = <password>
@@ -23,11 +23,11 @@ Feature: Server API
     Then Check if create request has successfully completed
     And Delete the server with the id=#[serverId]
     Then Update the server with id=#[serverId] with another server and check request can't be created
-    Then Get all requests with page=<page>, size=<size>, type=<type>, status=<status>, start=<start>, end=<end>
+    Then Get  all requests with page=<page>, size=<size>, type=<type>, status=<status>, start=<start>, end=<end>
 
     Examples:
       | name        | cores | ram  | storage | username | password | page | size | type          | status | start            | end              |
-      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | DELETE_SERVER | DONE   | 2022-08-11T15:49 | 2022-08-11T15:51 |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | 0    | 10   | DELETE_SERVER | DONE   | 2022-08-31T13:20 | 2022-08-31T15:51 |
 
   Scenario Outline: Create, delete server when there is another delete request for the same server
     Given  User is authenticated successfully with username = <username> and password = <password>
@@ -51,7 +51,7 @@ Feature: Server API
 
     Examples:
       | name        | cores | ram  | storage | username | password | type          | status | start            | end              |
-      | Server test | 2     | 1024 | 8       | alice    | pass     | UPDATE_SERVER | DONE   | 2022-08-11T15:49 | 2022-08-11T17:08 |
+      | Server test | 2     | 1024 | 8       | alice    | pass     | UPDATE_SERVER | DONE   | 2022-08-31T13:20 | 2022-09-06T17:08 |
 
 
   Scenario Outline: Create, get by id, update and delete server as an authenticated admin
