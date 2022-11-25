@@ -14,7 +14,7 @@
         <surefire.version>3.0.0-M6</surefire.version>
         <testng.config.file>testng.xml</testng.config.file>
         <cucumber.version>7.3.4</cucumber.version>
-        <cucumber.jutils.version>8.1</cucumber.jutils.version>
+        <cucumber.jutils.version>9.6</cucumber.jutils.version>
         <guice.version>5.1.0</guice.version>
         <maven-cucumber-reporting.version>5.7.0</maven-cucumber-reporting.version>
         <httpcore.version>4.4.15</httpcore.version>
